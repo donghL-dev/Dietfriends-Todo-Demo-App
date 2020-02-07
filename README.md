@@ -46,7 +46,7 @@ Dietfriends Todo Demo App
     $ git clone https://github.com/donghL-dev/Dietfriends-Todo-Demo-App.git
     ```
 
-* `DB`는 `MySQL`을 쓴다고 가정.
+* `DB`는 `MySQL`을 쓴다고 가정. 
 
     * 다른 `DB`를 사용한다면, 그 `DB`에 맞게 설정을 해야함.
 
@@ -61,7 +61,7 @@ Dietfriends Todo Demo App
             url: jdbc:mysql://localhost:3306/본인_DB?serverTimezone=UTC
             username: 본인_DB_User
             password: 본인_DB_User_Password
-            driver-class-name: com.mysql.jdbc.Driver
+            driver-class-name: com.mysql.cj.jdbc.Driver
         jpa:
             hibernate:
                 ddl-auto: create
