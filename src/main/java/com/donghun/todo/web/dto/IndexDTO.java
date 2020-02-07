@@ -16,7 +16,7 @@ public class IndexDTO {
 
     private Map<String, String> todoModel;
 
-    private Map<String, String> endPoints;
+    private Map<String, Object> endPoints;
 
     public IndexDTO() {
         this.name = "Dietfriends Todo Demo App";
@@ -30,10 +30,21 @@ public class IndexDTO {
         todoModel.put("updatedA", "Time");
 
         endPoints = new HashMap<>();
-        endPoints.put("GET", "/todos");
-        endPoints.put("GET", "/todos/{id}");
-        endPoints.put("POST", "/todos");
-        endPoints.put("PUT", "/todos/{id}");
-        endPoints.put("DELETE", "/todos/{id}");
+
+        Map<String, String> todo = new HashMap<>();
+        todo.put("GET", "/todos");
+        todo.put("GET(2)", "/todos/{id}");
+        todo.put("POST", "/todos");
+        todo.put("PUT", "/todos/{id}");
+        todo.put("DELETE", "/todos/{id}");
+
+        Map<String, String> user = new HashMap<>();
+        user.put("POST", "/user");
+        user.put("POST(2)", "/user/auth");
+        user.put("DELETE", "/user/logout");
+
+        endPoints.put("todo", todo);
+        endPoints.put("user", user);
+
     }
 }

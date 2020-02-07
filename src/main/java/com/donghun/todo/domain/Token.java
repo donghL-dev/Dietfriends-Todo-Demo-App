@@ -18,8 +18,8 @@ public class Token implements Serializable {
     private Integer idx;
 
     @Column(nullable = false)
-    private String email;
+    private String username;
 
-    @Column(nullable = false, length = 500)
+    @Column(nullable = false, length = 600)
     private String token;
 }

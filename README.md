@@ -65,6 +65,10 @@ Dietfriends Todo Demo App
         jpa:
             hibernate:
                 ddl-auto: create
+    todo:
+        jjwt:
+            secret: secret key
+            expiration: 만료 시간
     ```
 
 * `IntelliJ IDEA`(>= 2018.3)에서 해당 프로젝트를 `Open`
@@ -95,6 +99,8 @@ Dietfriends Todo Demo App
 * `Spring Web`
 
 * `Spring Data JPA`
+
+* `Spring Security`
 
 * `MySQL Driver`
 
