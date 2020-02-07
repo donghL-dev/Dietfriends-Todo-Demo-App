@@ -27,9 +27,7 @@ class UserTest {
     @Test
     @DisplayName("유저 생성 테스트")
     public void userCreateTest() {
-        User user = User.builder().username("test_username").email("test_email").password("test_password")
-                .age(25).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
-
+        User user = User.builder().username("test_username").password("test_password").age(25).build();
         testEntityManager.persist(user);
         then(userRepository.getOne(user.getIdx())).isNotNull().isEqualTo(user);
     }
@@ -37,16 +35,13 @@ class UserTest {
     @Test
     @DisplayName("유저 생성 및 조회 테스트")
     public void userCreateAndSearchTest() {
-        User user1 = User.builder().username("test_username1").email("test_email1").password("test_password1")
-                .age(25).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
+        User user1 = User.builder().username("test_username1").password("test_password1").age(25).build();
         testEntityManager.persist(user1);
 
-        User user2 = User.builder().username("test_username2").email("test_email2").password("test_password2")
-                .age(25).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
+        User user2 = User.builder().username("test_username2").password("test_password2").age(25).build();
         testEntityManager.persist(user2);
 
-        User user3 = User.builder().username("test_username3").email("test_email3").password("test_password3")
-                .age(25).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
+        User user3 = User.builder().username("test_username3").password("test_password3").age(25).build();
         testEntityManager.persist(user3);
 
         List<User> users = userRepository.findAll();
@@ -61,12 +56,10 @@ class UserTest {
     @Test
     @DisplayName("유저 생성 및 삭제 테스트")
     public void userCreateAndDeleteTest() {
-        User user1 = User.builder().username("test_username1").email("test_email1").password("test_password1")
-                .age(25).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
+        User user1 = User.builder().username("test_username1").password("test_password1").age(25).build();
         testEntityManager.persist(user1);
 
-        User user2 = User.builder().username("test_username2").email("test_email2").password("test_password2")
-                .age(25).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
+        User user2 = User.builder().username("test_username2").password("test_password2").age(25).build();
         testEntityManager.persist(user2);
 
         userRepository.deleteAll();

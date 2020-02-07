@@ -25,24 +25,16 @@ public class User implements Serializable {
     private String username;
 
     @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
     @JsonIgnore
     private String password;
 
     @Column(nullable = false)
     private Integer age;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
-    @Column
+    @Column(length = 500)
     private String token;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Todo> todos = new HashSet<>();
 }

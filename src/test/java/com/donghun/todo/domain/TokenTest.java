@@ -26,7 +26,7 @@ class TokenTest {
     @Test
     @DisplayName("Token 생성 테스트")
     public void createTokenTest() {
-        Token token = Token.builder().token(UUID.randomUUID().toString()).email("test_user@email.com").build();
+        Token token = Token.builder().token(UUID.randomUUID().toString()).username("test_user").build();
         testEntityManager.persist(token);
         then(tokenRepository.getOne(token.getIdx())).isNotNull().isEqualTo(token);
     }
@@ -34,13 +34,13 @@ class TokenTest {
     @Test
     @DisplayName("Token 생성 및 조회 테스트")
     public void createTokenAndSearchTest() {
-        Token token1 = Token.builder().token(UUID.randomUUID().toString()).email("test_user1@email.com").build();
+        Token token1 = Token.builder().token(UUID.randomUUID().toString()).username("test_user1").build();
         testEntityManager.persist(token1);
 
-        Token token2 = Token.builder().token(UUID.randomUUID().toString()).email("test_user2@email.com").build();
+        Token token2 = Token.builder().token(UUID.randomUUID().toString()).username("test_user2").build();
         testEntityManager.persist(token2);
 
-        Token token3 = Token.builder().token(UUID.randomUUID().toString()).email("test_user3@email.com").build();
+        Token token3 = Token.builder().token(UUID.randomUUID().toString()).username("test_user3").build();
         testEntityManager.persist(token3);
 
         List<Token> tokenList = tokenRepository.findAll();
@@ -55,10 +55,10 @@ class TokenTest {
     @Test
     @DisplayName("Token 생성 및 삭제 테스트")
     public void createTokenAndDeleteTest() {
-        Token token1 = Token.builder().token(UUID.randomUUID().toString()).email("test_user1@email.com").build();
+        Token token1 = Token.builder().token(UUID.randomUUID().toString()).username("test_user1").build();
         testEntityManager.persist(token1);
 
-        Token token2 = Token.builder().token(UUID.randomUUID().toString()).email("test_user2@email.com").build();
+        Token token2 = Token.builder().token(UUID.randomUUID().toString()).username("test_user2").build();
         testEntityManager.persist(token2);
 
         tokenRepository.deleteAll();

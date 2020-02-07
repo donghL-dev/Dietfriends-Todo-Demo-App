@@ -28,9 +28,7 @@ class TodoTest {
 
     @BeforeEach
     public void createUser() {
-        user = User.builder().username("test_username").email("test_email").password("test_password")
-                .age(25).createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).build();
-
+        user = User.builder().username("test_username").password("test_password").age(25).build();
         testEntityManager.persist(user);
     }
 
