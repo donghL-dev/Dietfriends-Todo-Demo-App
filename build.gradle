@@ -25,6 +25,11 @@ bootRun {
 dependencies {
     /* api & web */
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.springframework.boot:spring-boot-configuration-processor"
+
+    /* for file upload */
+    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'commons-io:commons-io:2.5'
 
     /* security & Authorization */
     implementation 'org.springframework.boot:spring-boot-starter-security'

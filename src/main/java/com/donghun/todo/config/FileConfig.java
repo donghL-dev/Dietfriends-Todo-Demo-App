@@ -1,13 +1,13 @@
 package com.donghun.todo.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 @Data
-@Configuration
+@Component
+@ConfigurationProperties(prefix = "file")
 public class FileConfig {
 
-    @Value("${file.upload-dir}")
     private String uploadDir;
 }
