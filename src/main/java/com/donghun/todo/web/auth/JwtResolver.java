@@ -20,14 +20,14 @@ public class JwtResolver {
         return token == null;
     }
 
-    public String getUserByToken(HttpServletRequest request) {
+    public Integer getUserByToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
 
         Jws<Claims> parsedToken = Jwts.parser()
                 .setSigningKey(secret.getBytes())
                 .parseClaimsJws(token);
 
-        return (String) parsedToken.getBody().get("idx");
+        return (Integer) parsedToken.getBody().get("idx");
     }
 
     public String getToken(HttpServletRequest request) {
@@ -40,8 +40,12 @@ public class JwtResolver {
     }
 
     private Boolean isTokenExpired(String token) {
-        Date expiration = getAllClaimsFromToken(token).getExpiration();
-        return expiration.before(new Date());
+        try {
+            Date expiration = getAllClaimsFromToken(token).getExpiration();
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private Claims getAllClaimsFromToken(String token) {

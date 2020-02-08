@@ -123,7 +123,7 @@ Dietfriends Todo Demo App
 
     | Key | Value |
     |:---:|:---:|
-    | Content-Type | `application/json` |
+    | Content-Type | `application/json` 또는 `multipart/formed-data` |
     | Authorization | `token` |
 
 * `Response`
