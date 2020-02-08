@@ -1,8 +1,12 @@
 package com.donghun.todo.web.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Getter @Builder
+@NoArgsConstructor
 public class ErrorResponseDTO {
 
     private String status;

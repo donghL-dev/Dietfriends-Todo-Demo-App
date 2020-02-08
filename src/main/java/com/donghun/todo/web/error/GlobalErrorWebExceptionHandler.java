@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-
 @RestController
 public class GlobalErrorWebExceptionHandler extends AbstractErrorController {
 
@@ -24,6 +23,7 @@ public class GlobalErrorWebExceptionHandler extends AbstractErrorController {
         errorAttributes.remove("timestamp");
         errorAttributes.remove("path");
         errorAttributes.remove("message");
+        errorAttributes.remove("trace");
 
         return errorAttributes;
     }

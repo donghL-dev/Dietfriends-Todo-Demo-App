@@ -1,13 +1,9 @@
-package com.donghun.todo.service;
+package com.donghun.todo.service.commons;
 
-import com.donghun.todo.repository.TodoRepository;
-import com.donghun.todo.repository.TokenRepository;
-import com.donghun.todo.web.auth.JwtResolver;
 import com.donghun.todo.web.dto.ErrorResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 

@@ -30,8 +30,8 @@ public class UserDTO {
     @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-_])(?=.*[0-9]).{8,22}$", message = "비밀번호 구성을 올바르게 하십시오")
     private String password;
 
-    public User createUser(PasswordEncoder passwordEncoder) {
-        return User.builder().username(name).age(age)
+    public User createUser(PasswordEncoder passwordEncoder, String imgUrl) {
+        return User.builder().username(name).age(age).image(imgUrl)
                 .password(passwordEncoder.encode(password)).build();
     }
 }

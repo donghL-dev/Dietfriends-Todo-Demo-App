@@ -24,7 +24,7 @@ public class Todo implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column()
+    @Column
     private Boolean completed;
 
     @Column
