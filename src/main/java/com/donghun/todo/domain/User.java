@@ -31,6 +31,9 @@ public class User implements Serializable {
     @Column(nullable = false)
     private Integer age;
 
+    @Column
+    private String image;
+
     @Column(length = 500)
     private String token;
 

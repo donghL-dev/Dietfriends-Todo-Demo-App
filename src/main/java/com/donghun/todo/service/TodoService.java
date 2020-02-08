@@ -5,6 +5,7 @@ import com.donghun.todo.domain.User;
 import com.donghun.todo.repository.TodoRepository;
 import com.donghun.todo.repository.TokenRepository;
 import com.donghun.todo.repository.UserRepository;
+import com.donghun.todo.service.commons.BaseService;
 import com.donghun.todo.web.auth.JwtResolver;
 import com.donghun.todo.web.dto.ErrorResponseDTO;
 import com.donghun.todo.web.dto.TodoDTO;
@@ -32,6 +33,8 @@ public class TodoService extends BaseService {
 
     private final JwtResolver jwtResolver;
 
+    private ErrorResponseDTO response;
+
     public Integer tokenCheck(HttpServletRequest request) {
         if (jwtResolver.isTokenExist(request)) {
             return 1;
@@ -57,18 +60,23 @@ public class TodoService extends BaseService {
 
     public ResponseEntity<?> errorResponse(Integer flag) {
         if (flag == 1 || flag == 5) {
-            ErrorResponseDTO response = new ErrorResponseDTO("401",
-                    "Not Authorized", "권한이 없습니다");
+            response = ErrorResponseDTO.builder().status("401").error("Not Authorized")
+                    .message("권한이 없습니다.").build();
+
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         } else if (flag == 4) {
-            ErrorResponseDTO response = new ErrorResponseDTO("500",
-                    "Server Error", "유저 또는 Todo가 존재하지 않습니다.");
+            response = ErrorResponseDTO.builder().status("500").error("Server Error")
+                    .message("유저 또는 Todo가 존재하지 않습니다.").build();
+
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        ErrorResponseDTO response2 = new ErrorResponseDTO("401",
+        response = ErrorResponseDTO.builder().status("401").error("Not Authorized")
+                .message("유효하지 않은 토큰입니다.").build();
+
+        new ErrorResponseDTO("401",
                 "Not Authorized", "유효하지 않은 토큰입니다");
-        return new ResponseEntity<>(response2, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     public boolean isStorageCheck() {
@@ -84,11 +92,11 @@ public class TodoService extends BaseService {
 
     public ResponseEntity<?> getTodo(String todoId) {
         Optional<Todo> todo = todoRepository.findById(Integer.valueOf(todoId));
-        ErrorResponseDTO response = new ErrorResponseDTO("404", "Not Found",
-                "todo is not exist");
+        response = ErrorResponseDTO.builder().status("404").error("Not Found")
+                .message("todo is not exist.").build();
 
         return todo.isPresent() ? new ResponseEntity<>(todo.get(), HttpStatus.OK) :
-                new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+                new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     public ResponseEntity<?> getListTodo(Integer limit, String skip) {
@@ -99,11 +107,11 @@ public class TodoService extends BaseService {
                 .map(todo -> new TodoListResponseDTO(todo, getCurrentUri()))
                 .collect(Collectors.toList());
 
-        ErrorResponseDTO response = new ErrorResponseDTO("404", "Not Found",
-                "todos is not exist");
+        response = ErrorResponseDTO.builder().status("404").error("Not Found")
+                .message("todos is not exist.").build();
 
-        return todos != null ? new ResponseEntity<>(todos, HttpStatus.OK) :
-                new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        return todos != null && !todos.isEmpty() ? new ResponseEntity<>(todos, HttpStatus.OK) :
+                new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     public String getCurrentUri() {

@@ -4,6 +4,7 @@ import com.donghun.todo.domain.Token;
 import com.donghun.todo.domain.User;
 import com.donghun.todo.repository.TokenRepository;
 import com.donghun.todo.repository.UserRepository;
+import com.donghun.todo.service.commons.BaseService;
 import com.donghun.todo.web.auth.JwtResolver;
 import com.donghun.todo.web.auth.SecurityConstants;
 import com.donghun.todo.web.dto.DefaultSuccessDTO;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -40,19 +42,28 @@ public class UserService extends BaseService {
     @Value("${todo.jjwt.expiration}")
     private String expirationTime;
 
+    private ErrorResponseDTO response;
+
 
     public boolean isNameCheck(String name) {
         return userRepository.findByUsername(name) != null;
     }
 
     public ResponseEntity<?> duplicateUser() {
-        ErrorResponseDTO response = new ErrorResponseDTO("400", "Bad Request",
-                "이미 존재하는 유저네임입니다.");
+        response = ErrorResponseDTO.builder().status("400").error("Bad Request")
+                .message("이미 존재하는 유저 네임입니다.").build();
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<?> createUser(UserDTO userDTO) {
-        User saveUser = userRepository.save(userDTO.createUser(passwordEncoder));
+        String defaultProfileImg = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/user/image/")
+                .path("USER_DEFAULT_PROFILE_IMG.png")
+                .toUriString();
+
+        User saveUser = userRepository.save(userDTO.createUser(passwordEncoder, defaultProfileImg));
+
         return new ResponseEntity<>(saveUser, HttpStatus.CREATED);
     }
 
@@ -66,8 +77,9 @@ public class UserService extends BaseService {
     }
 
     public ResponseEntity<?> invalidUser() {
-        ErrorResponseDTO response = new ErrorResponseDTO("400", "Bad Request",
-                "아이디가 존재하지 않거나 비밀번호가 틀렸습니다");
+        response = ErrorResponseDTO.builder().status("400").error("Bad Request")
+                .message("아이디가 존재하지 않거나 비밀번호가 틀렸습니다.").build();
+
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
@@ -102,13 +114,14 @@ public class UserService extends BaseService {
     public ResponseEntity<?> logoutLogic(HttpServletRequest request) {
 
         if (jwtResolver.isTokenExist(request)) {
-            ErrorResponseDTO response = new ErrorResponseDTO("401",
-                    "Not Authorized", "권한이 없습니다");
+            response = ErrorResponseDTO.builder().status("401").error("Not Authorized")
+                    .message("권한이 없습니다.").build();
+
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         } else if (jwtResolver.validateToken(request)
                 || tokenRepository.findByToken(jwtResolver.getToken(request)) == null) {
-            ErrorResponseDTO response = new ErrorResponseDTO("401",
-                    "Not Authorized", "유효하지 않은 토큰입니다");
+            response = ErrorResponseDTO.builder().status("401").error("Not Authorized")
+                    .message("유효하지 않은 토큰입니다.").build();
 
             tokenRepository.deleteByToken(jwtResolver.getToken(request)); // 만료된 토큰 삭제
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);

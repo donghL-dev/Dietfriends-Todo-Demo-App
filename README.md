@@ -11,7 +11,7 @@ Dietfriends Todo Demo App
 | OS |Windows 10, Ubuntu 18.04|
 | IDE |IntelliJ IDEA Ultimate |
 | JDK |JDK 1.8+|
-| DataBase |MySQL Server 5.7|
+| DataBase |MySQL Server 5.7, H2|
 | Build Tool | Gradle 4.8.1 |
 
 ## 개발 방법
@@ -65,6 +65,15 @@ Dietfriends Todo Demo App
         jpa:
             hibernate:
                 ddl-auto: create
+        servlet:
+           multipart:
+                enabled: true
+                max-file-size: 200MB
+                max-request-size: 215MB
+
+    file:
+        upload-dir: ./uploads
+
     todo:
         jjwt:
             secret: secret key
@@ -119,11 +128,13 @@ Dietfriends Todo Demo App
 
 * 모든 `API`에 대한 반환은 `Content-Type: application/json; charset=utf-8`를 기본으로 합니다.
 
+    * `API` 명세에 따라서 일부 `API`는 `HTTP Status Code`만 반환합니다.
+
 * 인증(`auth`)은 `HTTP` 헤더를 사용해서 진행됩니다.<br>
 
     | Key | Value |
     |:---:|:---:|
-    | Content-Type | `application/json` 또는 `multipart/formed-data` |
+    | Content-Type | `application/json` |
     | Authorization | `token` |
 
 * `Response`
