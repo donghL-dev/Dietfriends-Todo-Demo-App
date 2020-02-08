@@ -98,13 +98,11 @@ class UserControllerTest extends BaseControllerTest {
     @Test
     @DisplayName("User 로그아웃 API 테스트")
     public void logoutTest() throws Exception {
-
         User user = User.builder().age(25).username("test_user3")
                 .password(passwordEncoder.encode("test_password1")).build();
         userRepository.save(user);
 
         String token = generateToken(user);
-        tokenRepository.save(Token.builder().username(user.getUsername()).token(token).build());
 
         mockMvc.perform(delete("/user/logout")
                 .header(SecurityConstants.TOKEN_HEADER, token))
@@ -113,6 +111,22 @@ class UserControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
 
         then(tokenRepository.findAll().isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("User 조회 API 테스트")
+    public void getUserTest() throws Exception {
+        User user = User.builder().age(25).username("test_user4")
+                .password(passwordEncoder.encode("test_password5")).build();
+        userRepository.save(user);
+
+        String token = generateToken(user);
+
+        mockMvc.perform(get("/user")
+                .header(SecurityConstants.TOKEN_HEADER, token))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().encoding("UTF-8"))
+                .andExpect(status().isOk());
     }
 
 }

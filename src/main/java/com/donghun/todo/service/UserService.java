@@ -130,4 +130,13 @@ public class UserService extends BaseService {
         tokenRepository.deleteByToken(jwtResolver.getToken(request));
         return new ResponseEntity<>(new DefaultSuccessDTO(), HttpStatus.OK);
     }
+
+    public ResponseEntity<?> getUser(HttpServletRequest request) {
+        User user = userRepository.findByIdx(jwtResolver.getUserByToken(request));
+        response = ErrorResponseDTO.builder().status("404").error("Not Found")
+                .message("존재하지 않는 유저입니다.").build();
+
+        return user == null ? new ResponseEntity<>(response, HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }
