@@ -37,4 +37,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Todo> todos = new HashSet<>();
+
+    public void addTodo(Todo todo) {
+        todo.setUser(this);
+        this.todos.add(todo);
+    }
 }

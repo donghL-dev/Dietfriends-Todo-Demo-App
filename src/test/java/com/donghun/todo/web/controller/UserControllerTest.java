@@ -4,6 +4,8 @@ import com.donghun.todo.domain.Token;
 import com.donghun.todo.domain.User;
 import com.donghun.todo.repository.TokenRepository;
 import com.donghun.todo.repository.UserRepository;
+import com.donghun.todo.web.auth.SecurityConstants;
+import com.donghun.todo.web.controller.common.BaseControllerTest;
 import com.donghun.todo.web.dto.LoginDTO;
 import com.donghun.todo.web.dto.UserDTO;
 import org.junit.jupiter.api.AfterEach;
@@ -42,7 +44,7 @@ class UserControllerTest extends BaseControllerTest {
     }
 
     @AfterEach
-    public void init() {
+    public void dbClear() {
         tokenRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -56,6 +58,8 @@ class UserControllerTest extends BaseControllerTest {
         mockMvc.perform(post("/user")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(userDTO)))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().encoding("UTF-8"))
                 .andExpect(status().isCreated());
 
         User user = userRepository.findByUsername("Test_UserName");
@@ -80,10 +84,12 @@ class UserControllerTest extends BaseControllerTest {
         mockMvc.perform(post("/user/auth")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(loginDTO)))
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(content().encoding("UTF-8"))
                         .andExpect(status().isCreated());
 
-        User saveduser = userRepository.findByUsername("test_use2r");
-        Token token = tokenRepository.findByUsername("test_use2r");
+        User saveduser = userRepository.findByUsername("test_user2");
+        Token token = tokenRepository.findByUsername("test_user2");
 
         then(token).isNotNull();
         then(token.getToken()).isEqualTo(saveduser.getToken());
@@ -101,7 +107,9 @@ class UserControllerTest extends BaseControllerTest {
         tokenRepository.save(Token.builder().username(user.getUsername()).token(token).build());
 
         mockMvc.perform(delete("/user/logout")
-                .header("Authorization", token))
+                .header(SecurityConstants.TOKEN_HEADER, token))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().encoding("UTF-8"))
                 .andExpect(status().isOk());
 
         then(tokenRepository.findAll().isEmpty()).isTrue();

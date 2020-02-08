@@ -16,7 +16,7 @@ public class GlobalErrorWebExceptionHandler extends AbstractErrorController {
         super(errorAttributes);
     }
 
-    @GetMapping(value = "/error", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/error", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Map<String, Object> handleError(HttpServletRequest request) {
         Map<String, Object> errorAttributes = getErrorAttributes(request, true);

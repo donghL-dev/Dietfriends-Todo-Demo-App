@@ -1,5 +1,6 @@
 package com.donghun.todo.web.controller;
 
+import com.donghun.todo.web.controller.common.BaseControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

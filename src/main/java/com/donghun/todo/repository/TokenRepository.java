@@ -1,5 +1,6 @@
 package com.donghun.todo.repository;
 
+import com.donghun.todo.domain.Todo;
 import com.donghun.todo.domain.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,9 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
     void deleteByToken(String token);
 
     Token findByToken(String token);
+
+    @Transactional
+    void deleteByUsername(String username);
+
+    Todo findByIdx(Integer valueOf);
 }

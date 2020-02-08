@@ -18,16 +18,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService extends BaseService {
 
     private final UserRepository userRepository;
 
@@ -43,18 +40,6 @@ public class UserService {
     @Value("${todo.jjwt.expiration}")
     private String expirationTime;
 
-    public ResponseEntity<?> validation(BindingResult bindingResult) {
-        List<ObjectError> list = bindingResult.getAllErrors();
-        StringBuilder msg = new StringBuilder();
-
-        for (ObjectError error : list)
-            msg.append(error.getDefaultMessage()).append("\n");
-
-        ErrorResponseDTO response = new ErrorResponseDTO("400",
-                "Bad Request", msg.toString());
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 
     public boolean isNameCheck(String name) {
         return userRepository.findByUsername(name) != null;
@@ -88,7 +73,10 @@ public class UserService {
 
     public ResponseEntity<?> generateToken(LoginDTO loginDTO) {
         byte[] signingKey = secret.getBytes();
-        User crrentUser = userRepository.findByUsername(loginDTO.getName());
+        User currentUser = userRepository.findByUsername(loginDTO.getName());
+
+        if (tokenRepository.findByUsername(currentUser.getUsername()) != null)
+            tokenRepository.deleteByUsername(currentUser.getUsername());
 
         String token = Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512, signingKey)
@@ -96,19 +84,19 @@ public class UserService {
                 .setIssuer(SecurityConstants.TOKEN_ISSUER)
                 .setAudience(SecurityConstants.TOKEN_AUDIENCE)
                 .setSubject("Todo JWT Token")
-                .claim("idx", crrentUser.getIdx())
-                .claim("userName", crrentUser.getUsername())
+                .claim("idx", currentUser.getIdx())
+                .claim("userName", currentUser.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(expirationTime)))
                 .compact();
 
-        crrentUser.setToken(token);
-        userRepository.save(crrentUser);
+        currentUser.setToken(token);
+        userRepository.save(currentUser);
 
-        Token dbToken = Token.builder().username(crrentUser.getUsername()).token(token).build();
+        Token dbToken = Token.builder().username(currentUser.getUsername()).token(token).build();
         tokenRepository.save(dbToken);
 
-        return new ResponseEntity<>(crrentUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(currentUser, HttpStatus.CREATED);
     }
 
     public ResponseEntity<?> logoutLogic(HttpServletRequest request) {
