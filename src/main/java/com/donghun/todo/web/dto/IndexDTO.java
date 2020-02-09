@@ -1,18 +1,16 @@
 package com.donghun.todo.web.dto;
 
 import lombok.Getter;
-import lombok.ToString;
+import java.util.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@ToString
 @Getter
 public class IndexDTO {
 
     private String name;
 
     private String documentation;
+
+    private String github_repo;
 
     private Map<String, String> todoModel;
 
@@ -21,6 +19,7 @@ public class IndexDTO {
     public IndexDTO() {
         this.name = "Dietfriends Todo Demo App";
         this.documentation = "https://df-test.docs.stoplight.io/api-reference/intro";
+        this.github_repo = "https://github.com/donghL-dev/Dietfriends-Todo-Demo-App";
 
         todoModel = new HashMap<>();
         todoModel.put("name", "String");
@@ -31,17 +30,27 @@ public class IndexDTO {
 
         endPoints = new HashMap<>();
 
-        Map<String, String> todo = new HashMap<>();
-        todo.put("GET", "/todos");
-        todo.put("GET(2)", "/todos/{id}");
-        todo.put("POST", "/todos");
-        todo.put("PUT", "/todos/{id}");
-        todo.put("DELETE", "/todos/{id}");
+        Map<String, Object> todo = new HashMap<>();
+        List<String> list = Arrays.asList("/todos", "/todos/{todoId}");
+        todo.put("GET", list);
 
-        Map<String, String> user = new HashMap<>();
-        user.put("POST", "/user");
-        user.put("POST(2)", "/user/auth");
-        user.put("DELETE", "/user/logout");
+        todo.put("POST", "/todos");
+
+        todo.put("PUT", "/todos/{todoId}");
+
+        todo.put("DELETE", "/todos/{todoId}");
+
+        Map<String, Object> user = new HashMap<>();
+        list = Arrays.asList("/user", "/user/image/{filename}");
+        user.put("GET", list);
+
+        list = Arrays.asList("/user", "/user/auth");
+        user.put("POST", list);
+
+        user.put("PUT", "/user/image");
+
+        list = Arrays.asList("/user/logout", "/user/image");
+        user.put("DELETE", list);
 
         endPoints.put("todo", todo);
         endPoints.put("user", user);
