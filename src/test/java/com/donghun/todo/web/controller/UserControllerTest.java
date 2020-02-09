@@ -50,7 +50,7 @@ class UserControllerTest extends BaseControllerTest {
     }
 
     @Test
-    @DisplayName("User 생성 테스트")
+    @DisplayName("User 생성 API 테스트")
     public void createUserTest() throws Exception {
         UserDTO userDTO = UserDTO.builder().age(25).name("Test_UserName")
                 .password("Test@Password1234").build();
@@ -84,7 +84,7 @@ class UserControllerTest extends BaseControllerTest {
         mockMvc.perform(post("/user/auth")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(loginDTO)))
-                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                         .andExpect(content().encoding("UTF-8"))
                         .andExpect(status().isCreated());
 
@@ -106,7 +106,7 @@ class UserControllerTest extends BaseControllerTest {
 
         mockMvc.perform(delete("/user/logout")
                 .header(SecurityConstants.TOKEN_HEADER, token))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(content().encoding("UTF-8"))
                 .andExpect(status().isOk());
 

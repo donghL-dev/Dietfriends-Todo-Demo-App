@@ -74,8 +74,6 @@ public class TodoService extends BaseService {
         response = ErrorResponseDTO.builder().status("401").error("Not Authorized")
                 .message("유효하지 않은 토큰입니다.").build();
 
-        new ErrorResponseDTO("401",
-                "Not Authorized", "유효하지 않은 토큰입니다");
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 

@@ -46,7 +46,7 @@ Dietfriends Todo Demo App
     $ git clone https://github.com/donghL-dev/Dietfriends-Todo-Demo-App.git
     ```
 
-* `DB`는 `MySQL`을 쓴다고 가정. 
+* `DB`는 `MySQL`을 사용한다고 가정. 
 
     * 다른 `DB`를 사용한다면, 그 `DB`에 맞게 설정을 해야함.
 
@@ -207,7 +207,9 @@ Dietfriends Todo Demo App
     
     * `Image Response`
 
-        * `Image File`
+        ```text
+        Image File(jpeg, jpg, png)
+        ```
 
     * `Index Response`
 
@@ -296,7 +298,7 @@ Dietfriends Todo Demo App
 
 * End Point
 
-    * 사용자 및 로그인 <br><br>
+    * `User API` <br><br>
 
     | Title | HTTP Method | URL | Request | Response | Success HTTP Status | Auth
     |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -308,7 +310,7 @@ Dietfriends Todo Demo App
     | `Profile Image Custom` | `PUT` | `/user/image` | `form-data(file: ImageFile)` | `User` | `200` | `YES`
     | `Profile Image Initialization` | `DELETE` | `/user/image` |  | `User` | `200` | `YES`
     
-    * 블로그 내용 <br><br>
+    * `Todo API` <br><br>
 
     | Title | HTTP Method | URL | Request | Response | Success HTTP Status | Auth
     |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
