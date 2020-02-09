@@ -111,6 +111,12 @@ Dietfriends Todo Demo App
 
 * `Spring Security`
 
+* `Spring Configuration Processor`
+
+* `Apache Commons IO`
+
+* `JUnit Jupiter API`
+
 * `MySQL Driver`
 
 * `H2 Database`
