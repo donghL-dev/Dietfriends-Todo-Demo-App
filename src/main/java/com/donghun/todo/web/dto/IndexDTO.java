@@ -14,6 +14,8 @@ public class IndexDTO {
 
     private Map<String, String> todoModel;
 
+    private Map<String, String> userModel;
+
     private Map<String, Object> endPoints;
 
     public IndexDTO() {
@@ -27,6 +29,13 @@ public class IndexDTO {
         todoModel.put("completedA", "Time");
         todoModel.put("createdAt", "Time");
         todoModel.put("updatedA", "Time");
+
+        userModel = new HashMap<>();
+        userModel.put("username", "String");
+        userModel.put("password", "String");
+        userModel.put("age", "Integer");
+        userModel.put("image", "String");
+        userModel.put("token", "String");
 
         endPoints = new HashMap<>();
 

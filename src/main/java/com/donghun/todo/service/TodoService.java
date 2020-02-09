@@ -110,7 +110,7 @@ public class TodoService extends BaseService {
         response = ErrorResponseDTO.builder().status("404").error("Not Found")
                 .message("todos is not exist.").build();
 
-        return todos != null && !todos.isEmpty() ? new ResponseEntity<>(todos, HttpStatus.OK) :
+        return todos != null ? new ResponseEntity<>(todos, HttpStatus.OK) :
                 new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 

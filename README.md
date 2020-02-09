@@ -100,7 +100,7 @@ Dietfriends Todo Demo App
 
 ## 배포 서버
 
-* 추후 추가 예정
+* [https://donghun.dev:8085](https://donghun.dev:8085/)
 
 ## Dependencies
 <details><summary>세부정보</summary>
@@ -112,6 +112,8 @@ Dietfriends Todo Demo App
 * `Spring Security`
 
 * `Spring Configuration Processor`
+
+* `JSON Web Token Support For The JVM`
 
 * `Apache Commons IO`
 
@@ -145,14 +147,186 @@ Dietfriends Todo Demo App
 
 * `Response`
 
-    * 추후 추가 예정
+    * `User`
 
+        * `required`
+
+            * `username`
+
+            * `age`
+
+        ```json
+        {
+            "idx": 2,
+            "username": "...",
+            "age": 25,
+            "image": "...",
+            "token": "..."
+        }
+        ```
+
+    * `Single Todo`
+
+        * `required`
+
+            * `name`
+
+            * `completed`
+
+        ```json
+        {
+            "idx": 2,
+            "name": "...",
+            "completed": "null or boolean",
+            "completedAt": "null or datetime",
+            "createdAt": "9999-99-99T00:00:00.000Z",
+            "updatedAt": "9999-99-99T00:00:00.000Z"
+        }
+        ```
+    
+    * `Multiple Todos`
+
+        ```json
+        [
+            {
+                "idx": 3,
+                "name": "...",
+                "completed": "null or boolean",
+                "completedAt": "null or datetime",
+                "url": "..."
+            },
+            {
+                "idx": 2,
+                "name": "...",
+                "completed": "null or boolean",
+                "completedAt": "null or datetime",
+                "url": "..."
+            }
+        ]
+        ```
+    
+    * `Image Response`
+
+        * `Image File`
+
+    * `Index Response`
+
+        ```json
+        {
+            "name": "Dietfriends Todo Demo App",
+            "documentation": "https://df-test.docs.stoplight.io/api-reference/intro",
+            "github_repo": "https://github.com/donghL-dev/Dietfriends-Todo-Demo-App",
+            "todoModel": {
+                "createdAt": "Time",
+                "updatedA": "Time",
+                "name": "String",
+                "completed": "Boolean",
+                "completedA": "Time"
+            },
+            "userModel": {
+                "image": "String",
+                "password": "String",
+                "age": "Integer",
+                "username": "String",
+                "token": "String"
+            },
+            "endPoints": {
+                "todo": {
+                    "DELETE": "/todos/{todoId}",
+                    "POST": "/todos",
+                    "GET": [
+                        "/todos",
+                        "/todos/{todoId}"
+                    ],
+                    "PUT": "/todos/{todoId}"
+                },
+                "user": {
+                    "DELETE": [
+                        "/user/logout",
+                        "/user/image"
+                    ],
+                    "POST": [
+                        "/user",
+                        "/user/auth"
+                    ],
+                    "GET": [
+                        "/user",
+                        "/user/image/{filename}"
+                    ],
+                    "PUT": "/user/image"
+                }
+            }
+        }
+        ```
+
+    * `Errors Response`
+
+        * `required`
+
+            * `status`
+
+            * `error`
+
+        ```json
+        {
+            "status": "...",
+            "error": "...",
+            "message": "..."
+        }
+        ```
+    
+    * `Default Success Response`
+
+        ```json
+        {
+            "status": "200 OK",
+            "message": "Your request has been successfully processed."
+        }
+        ```
+
+* 대표적인 에러 코드
+
+    * `401 for Unauthorized requests`
+
+    * `400 for Bad requests`
+
+    * `404 for Not found requests`
+
+    * `500 for Server Error requests`
+
+* End Point
+
+    * 사용자 및 로그인 <br><br>
+
+    | Title | HTTP Method | URL | Request | Response | Success HTTP Status | Auth
+    |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+    | `Registration` | `POST` | `/user` | `{ "name": "test_name", "age": 25, "password": "test_password1@" }` | `User` | `201` | `NO`
+    | `Authentication` | `POST` | `/users/auth` | `{ "name": "test_name", "password": "test_password1@" }` | `User` | `201` | `NO`
+    | `Authentication expiration` | `DELETE` | `/user/logout` |  | `Default Success Response` | `200` | `YES`
+    | `Current User` | `GET` | `/user` |  | `User` | `200` | `YES`
+    | `Profile Image Read` | `GET` | `/user/image/{filename}` |  | `Image Response` | `200` | `NO`
+    | `Profile Image Custom` | `PUT` | `/user/image` | `form-data(file: ImageFile)` | `User` | `200` | `YES`
+    | `Profile Image Initialization` | `DELETE` | `/user/image` |  | `User` | `200` | `YES`
+    
+    * 블로그 내용 <br><br>
+
+    | Title | HTTP Method | URL | Request | Response | Success HTTP Status | Auth
+    |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+    | `Index Access` | `GET` | `/` |  | `Index Response` | `200` | `NO`
+    | `List Todos` | `GET` | `/todos` |  | `Multiple Todos` | `200` | `NO`
+    | `Limit Number of Todos` | `GET` | `/todos?limit={number}` |  | `Multiple Todos` | `200` | `NO`
+    | `Skip Number of Todos` | `GET` | `/todos?skip={number}` |  | `Multiple Todos` | `200` | `NO`
+    | `Get Todo` | `GET` | `/todos/{todoId}` |  | `Single Todo` | `200` | `NO`
+    | `Create Todo` | `POST` | `/todos` | { "name" : "create todo", "completed": false }  | `Single Todo` | `201` | `YES`
+    | `Update Todo` | `PUT` | `/todos/{todoId}` | { "name" : "modifyed todo", "completed": true }  | `Single Todo` | `200` | `YES`
+    | `Delete Todo` | `Delete` | `/todos/{todoId}` |  |  | `204` | `YES`
+    
 </details>
 
 ## Reference
 <details><summary>세부정보</summary>
 <br>
 
-* 참고한 소스코드 또는 오픈 소스가 생길 경우 추가 예정.
+* [Java JWT: JSON Web Token for Java and Android](https://github.com/jwtk/jjwt)
 
 </details>
