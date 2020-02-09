@@ -32,6 +32,4 @@ class IndexControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
-
-
 }

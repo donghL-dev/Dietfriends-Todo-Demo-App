@@ -1,7 +1,6 @@
 package com.donghun.todo.service.commons;
 
 import com.donghun.todo.web.dto.ErrorResponseDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -9,7 +8,6 @@ import org.springframework.validation.ObjectError;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class BaseService {
 
     public ResponseEntity<?> validation(BindingResult bindingResult) {

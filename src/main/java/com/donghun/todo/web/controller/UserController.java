@@ -26,7 +26,7 @@ public class UserController {
 
     private final TodoService todoService;
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
         logger.info("Create User API Accessed");
 
