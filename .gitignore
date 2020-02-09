@@ -25,7 +25,7 @@ console.xml
 logback-spring.xml
 file.xml
 AccessLogConfig.java
-HttpsConfig.jaava
+HttpConfig.java
 logback-access.xml
 
 # Generated files
