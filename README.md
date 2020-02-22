@@ -100,7 +100,7 @@ Dietfriends Todo Demo App
 
 ## 배포 서버
 
-* [https://donghun.dev:8085](https://donghun.dev:8085/)
+* [https://deploy.donghun.dev:8085](https://deploy.donghun.dev:8085/)
 
 ## Dependencies
 <details><summary>세부정보</summary>
